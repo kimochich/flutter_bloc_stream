@@ -9,7 +9,7 @@ import '../../../base/base_bloc.dart';
 part 'home_page_state.dart';
 
 class HomePageBloc extends BaseBloc<HomePageEvent,HomePageState> with ChangeNotifier {
-  UserRepository userRepo;
+  UserRepository userRepository;
 
   UserResponse? _userData;
 
@@ -22,13 +22,13 @@ class HomePageBloc extends BaseBloc<HomePageEvent,HomePageState> with ChangeNoti
   //
   // Sink<HomePageState> get userStreamSink => _userStream.sink;
 
-  HomePageBloc({required this.userRepo})  {
+  HomePageBloc({required this.userRepository})  {
     event.add(GetUserDataEvent());
   }
 
   getListUser() async {
     loadingSink.add(true);
-    final response = await userRepo.getListUser("hai");
+    final response = await userRepository.getListUser("hai");
     if (response.response.statusCode == 200) {
       _userData = response.data;
       state.add(GetUserSuccess(_userData!));

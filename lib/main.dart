@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_rx_stream/data/repositories/user_repository.dart';
 import 'package:flutter_bloc_rx_stream/page_routes.dart';
 import 'package:flutter_bloc_rx_stream/di/injection/injection.dart';
 import 'package:flutter_bloc_rx_stream/presentation/home_page/bloc/home_page_bloc.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
     return <String, WidgetBuilder>{
       PageRoutes.home: (BuildContext context) {
         return ChangeNotifierProvider(
-          create: (_) => HomePageBloc(userRepo: getIt.get()),
+          create: (_) =>
+              HomePageBloc(userRepository: getIt.get<UserRepository>()),
           child: const HomePage(),
         );
       },
