@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_rx_stream/data/models/response/user_response.dart';
+import 'package:flutter_bloc_rx_stream/generated/l10n.dart';
 import 'package:flutter_bloc_rx_stream/presentation/home_page/bloc/home_page_event.dart';
 import 'package:flutter_bloc_rx_stream/widgets/page_loading_overlay.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     final bloc = Provider.of<HomePageBloc>(context);
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(title: Text(S.of(context).hello),),
         body: PageLoadingOverlay(
           loadingStream: bloc.loadingStream,
           child: Stack(
@@ -51,14 +53,7 @@ class _HomePageState extends State<HomePage> {
                   // );
                   return Container();
                 },
-              ),
-              StreamBuilder<HomePageState>(
-                stream: bloc.stateStream,
-                builder: (BuildContext context, state) {
-                  print("STATE LÀ ${state.data}");
-                    return const SizedBox.shrink();
-                },
-              ),
+              )
             ],
           ),
         ),

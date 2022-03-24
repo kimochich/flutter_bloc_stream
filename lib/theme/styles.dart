@@ -20,4 +20,8 @@ class AppStyles {
       headline4:  TextStyle(fontFamily: roboto, fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textDark),
       headline3:  TextStyle(fontFamily: roboto, fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.textDark),
       headline2:  TextStyle(fontFamily: roboto, fontSize: 30, fontWeight: FontWeight.w900, color: AppColors.textDark));
+
+  static  ThemeData lightTheme =  ThemeData.light().copyWith(textTheme: textTheme);
+
+  static  ThemeData darkTheme =  ThemeData.dark().copyWith(textTheme: textTheme);
 }
