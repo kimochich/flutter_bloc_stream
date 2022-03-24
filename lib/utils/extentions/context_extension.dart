@@ -14,18 +14,4 @@ extension ContextExtensions on BuildContext {
 
   Size get size => MediaQuery.of(this).size;
 
-  ///Show loading overlay when do sth (submit action,,,,)
-  Future<T> runTask<T>(Future<T> task, {Stream<double>? percent}) async {
-    var overlayEntry = OverlayEntry(
-        builder: (context) => PageLoadingOverlay(percent: percent));
-    Overlay.of(this)?.insert(overlayEntry);
-    try {
-      final data = await task;
-      overlayEntry.remove();
-      return data;
-    } catch (error) {
-      overlayEntry.remove();
-      rethrow;
-    }
-  }
 }

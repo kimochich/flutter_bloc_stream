@@ -1,16 +1,11 @@
 part of 'home_page_bloc.dart';
 
 abstract class HomePageState extends BaseState {
-   HomePageState();
-}
-
-class Loading extends HomePageState {
-  @override
-  List<Object> get props => [];
+  HomePageState();
 }
 
 class GetUserSuccess extends HomePageState {
-  UserResponse userResponse;
+  final UserResponse userResponse;
 
   GetUserSuccess(this.userResponse);
 
@@ -18,7 +13,10 @@ class GetUserSuccess extends HomePageState {
   List<Object> get props => [];
 }
 
-class GetUserFaild extends HomePageState {
+class GetUserError extends HomePageState {
+  final String mess;
+
+  GetUserError(this.mess);
 
   @override
   List<Object> get props => [];

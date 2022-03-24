@@ -27,14 +27,15 @@ class HomePageBloc extends BaseBloc<HomePageEvent,HomePageState> with ChangeNoti
   }
 
   getListUser() async {
-    state.add(Loading());
+    loadingSink.add(true);
     final response = await userRepo.getListUser("hai");
     if (response.response.statusCode == 200) {
       _userData = response.data;
       state.add(GetUserSuccess(_userData!));
     } else {
-
+      state.add(GetUserError("Call lỗi"));
     }
+    loadingSink.add(false);
   }
 
   @override

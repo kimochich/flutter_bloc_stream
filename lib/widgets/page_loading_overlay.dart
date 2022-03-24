@@ -6,9 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PageLoadingOverlay extends StatefulWidget {
-  final Stream<double>? percent;
+  final Stream<bool>? loadingStream;
+  final Widget child;
 
-  const PageLoadingOverlay({Key? key, this.percent}) : super(key: key);
+  const PageLoadingOverlay(
+      {Key? key, required this.loadingStream, required this.child})
+      : super(key: key);
 
   @override
   _PageLoadingOverlayState createState() => _PageLoadingOverlayState();
@@ -17,36 +20,34 @@ class PageLoadingOverlay extends StatefulWidget {
 class _PageLoadingOverlayState extends State<PageLoadingOverlay> {
   @override
   Widget build(BuildContext context) {
-    developer.log('widget.percent: ${widget.percent}',
-        name: '_PageLoadingOverlayState');
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.black26,
-      child: ClipRRect(
-        clipBehavior: Clip.hardEdge,
-        borderRadius: BorderRadius.circular(12),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-          child: Container(
-            width: 80,
-            height: 80,
-            color: Colors.black45,
-            alignment: Alignment.center,
-            child: widget.percent == null
-                ? const CupertinoActivityIndicator()
-                : StreamBuilder<double>(
-                    stream: widget.percent,
-                    builder: (context, snap) {
-                      return SizedBox(
-                        width: 56,
-                        height: 56,
-                        child: LoadingPercentWidget(
-                            ((snap.data ?? 0) * 100).toInt()),
-                      );
-                    }),
-          ),
-        ),
-      ),
+    return Stack(
+      children: [
+        widget.child,
+        StreamBuilder(
+            stream: widget.loadingStream,
+            builder: (_, state) {
+              return (state.data != null && state.data == true)
+                  ? Container(
+                      alignment: Alignment.center,
+                      color: Colors.black26,
+                      child: ClipRRect(
+                        clipBehavior: Clip.hardEdge,
+                        borderRadius: BorderRadius.circular(12),
+                        child: BackdropFilter(
+                          filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.black45,
+                            alignment: Alignment.center,
+                            child: const CupertinoActivityIndicator(),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox();
+            }),
+      ],
     );
   }
 }
