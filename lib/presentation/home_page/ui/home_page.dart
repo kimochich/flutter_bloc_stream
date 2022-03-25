@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc_rx_stream/data/models/response/user_response.dart';
 import 'package:flutter_bloc_rx_stream/generated/l10n.dart';
-import 'package:flutter_bloc_rx_stream/presentation/home_page/bloc/home_page_event.dart';
 import 'package:flutter_bloc_rx_stream/widgets/page_loading_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,10 @@ class _HomePageState extends State<HomePage> {
                         itemCount: data.items?.length ?? 0,
                         itemBuilder: (_, index) {
                           return InkWell(
-                            onTap: () {
-                              bloc.event.add(GetUserDataEvent());
+                            onTap: () async{
+                              var methodChannel = const MethodChannel("callNative");
+
+                              await methodChannel.invokeMethod("start");
                             },
                             child:
                                 ListTile(title: Text(data.items?[index].login ?? "")),
